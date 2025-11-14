@@ -33,7 +33,7 @@ publishing {
         maven {
             name = "GitHubPackages"
             def githubRepo = System.getenv("GITHUB_REPOSITORY") ?: "OWNER/CommandRunner"
-            url = uri("https://maven.pkg.github.com/${githubRepo}")
+            url = uri("https://maven.pkg.github.com/smling/command-runner")
             credentials {
                 username = System.getenv("GITHUB_ACTOR") ?: "OWNER"
                 password = System.getenv("GITHUB_TOKEN") ?: System.getenv("GH_TOKEN") ?: ""
