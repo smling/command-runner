@@ -69,13 +69,13 @@ This project uses:
 If you publish this project to a Maven repository (for example GitHub Packages), the coordinates will be:
 
 - **Group:** `io.github.smling`
-- **Artifact:** `CommandRunner`
-- **Version:** (from `build.gradle`, e.g. `1.0-SNAPSHOT`)
+- **Artifact:** `command-runner`
+- **Version:** (from `build.gradle`, e.g. `1.1.1`)
 
 **Gradle (Kotlin DSL):**
 
 ```kotlin
-implementation("io.github.smling:CommandRunner:1.0-SNAPSHOT")
+implementation("io.github.smling:command-runner:1.1.1")
 ```
 
 **Maven:**
@@ -83,8 +83,8 @@ implementation("io.github.smling:CommandRunner:1.0-SNAPSHOT")
 ```xml
 <dependency>
   <groupId>io.github.smling</groupId>
-  <artifactId>CommandRunner</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>command-runner</artifactId>
+  <version>1.1.1</version>
 </dependency>
 ```
 

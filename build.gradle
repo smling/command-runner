@@ -25,18 +25,18 @@ publishing {
         gpr(MavenPublication) {
             from components.java
             groupId = project.group
-            artifactId = 'CommandRunner'
+            artifactId = 'command-runner'
             version = project.version
         }
     }
     repositories {
         maven {
             name = "GitHubPackages"
-            def githubRepo = System.getenv("GITHUB_REPOSITORY") ?: "OWNER/CommandRunner"
-            url = uri("https://maven.pkg.github.com/smling/command-runner")
+            def githubRepo = System.getenv("GITHUB_REPOSITORY") ?: "smling/command-runner"
+            url = uri("https://maven.pkg.github.com/${githubRepo}")
             credentials {
-                username = System.getenv("GITHUB_ACTOR") ?: "OWNER"
-                password = System.getenv("GITHUB_TOKEN") ?: System.getenv("GH_TOKEN") ?: ""
+                username = System.getenv("GITHUB_ACTOR") ?: System.getenv("GITHUB_USERNAME") ?: "smling"
+                password = System.getenv("GH_TOKEN") ?: System.getenv("GITHUB_TOKEN") ?: ""
             }
         }
     }
