@@ -131,8 +131,8 @@ jobs:
         env:
           NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         with:
-          project: "CommandRunner"
-          path: "."
+          project: ${{ github.repository }}
+          path: .
           format: "HTML"
           out: "reports"
 
