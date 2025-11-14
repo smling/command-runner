@@ -35,8 +35,9 @@ publishing {
             def githubRepo = System.getenv("GITHUB_REPOSITORY") ?: "smling/command-runner"
             url = uri("https://maven.pkg.github.com/${githubRepo}")
             credentials {
-                username = System.getenv("GITHUB_ACTOR") ?: System.getenv("GITHUB_USERNAME") ?: "smling"
-                password = System.getenv("GH_TOKEN") ?: System.getenv("GITHUB_TOKEN") ?: ""
+                // In GitHub Actions, these come from the workflow environment.
+                username = System.getenv("GITHUB_ACTOR") ?: "smling"
+                password = System.getenv("GITHUB_TOKEN") ?: ""
             }
         }
     }
