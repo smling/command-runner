@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write   # needed to create tags and releases
+  packages: write   # needed to publish to GitHub Packages
 
 jobs:
   build-and-release:
@@ -28,6 +29,11 @@ jobs:
 
       - name: Build application
         run: ./gradlew clean build --no-daemon
+
+      - name: Publish to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publish --no-daemon
 
       - name: Determine project version from Gradle
         id: get_version

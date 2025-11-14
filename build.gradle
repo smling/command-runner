@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group = 'io.github.smling'
-version = '1.1.0'
+version = '1.1.1'
 
 repositories {
     mavenCentral()
@@ -17,4 +18,26 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = 'CommandRunner'
+            version = project.version
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            def githubRepo = System.getenv("GITHUB_REPOSITORY") ?: "OWNER/CommandRunner"
+            url = uri("https://maven.pkg.github.com/${githubRepo}")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: "OWNER"
+                password = System.getenv("GITHUB_TOKEN") ?: System.getenv("GH_TOKEN") ?: ""
+            }
+        }
+    }
 }
