@@ -1,0 +1,65 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write   # needed to create tags and releases
+
+jobs:
+  build-and-release:
+    name: Build, Tag, and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
+      - name: Build application
+        run: ./gradlew clean build --no-daemon
+
+      - name: Determine project version from Gradle
+        id: get_version
+        run: |
+          VERSION=$(./gradlew -q properties | grep "^version:" | awk '{print $2}')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Locate built artifact
+        id: artifact
+        run: |
+          JAR_PATH=$(ls build/libs/*.jar | head -n 1)
+          echo "jar_path=$JAR_PATH" >> "$GITHUB_OUTPUT"
+          echo "jar_name=$(basename "$JAR_PATH")" >> "$GITHUB_OUTPUT"
+
+      - name: Create Git tag and GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: ${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Upload JAR artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ steps.artifact.outputs.jar_path }}
+          asset_name: ${{ steps.artifact.outputs.jar_name }}
+          asset_content_type: application/java-archive
+
