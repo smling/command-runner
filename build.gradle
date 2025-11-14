@@ -22,7 +22,7 @@ test {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        gpr(MavenPublication) {
             from components.java
             groupId = project.group
             artifactId = 'CommandRunner'
